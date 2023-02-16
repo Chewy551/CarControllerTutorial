@@ -126,45 +126,58 @@ public class CarController : MonoBehaviour
         UpdateWheel(colliders.RRWheel, wheelMeshes.RRWheel);
         UpdateWheel(colliders.RLWheel, wheelMeshes.RLWheel);
     }
-    void CheckParticles() {
+    void CheckParticles()
+    {
         WheelHit[] wheelHits = new WheelHit[4];
         colliders.FRWheel.GetGroundHit(out wheelHits[0]);
         colliders.FLWheel.GetGroundHit(out wheelHits[1]);
 
         colliders.RRWheel.GetGroundHit(out wheelHits[2]);
         colliders.RLWheel.GetGroundHit(out wheelHits[3]);
+        var FRWheelEmission = wheelParticles.FRWheel.emission;
+        var FLWheelEmission = wheelParticles.FLWheel.emission;
+        var RRWheelEmission = wheelParticles.RRWheel.emission;
+        var RLWheelEmission = wheelParticles.RLWheel.emission;
 
-        float slipAllowance = 0.5f;
-        if ((Mathf.Abs(wheelHits[0].sidewaysSlip) + Mathf.Abs(wheelHits[0].forwardSlip) > slipAllowance)){
-            wheelParticles.FRWheel.Play();
+        float slipAllowance = 0.1f;
+        // Particles for the front right wheel.
+        if ((Mathf.Abs(wheelHits[0].sidewaysSlip) + Mathf.Abs(wheelHits[0].forwardSlip) > slipAllowance))
+        {
+            FRWheelEmission.rateOverTime = 5.0f;
         }
         else
         {
-            wheelParticles.FRWheel.Stop();
+            FRWheelEmission.rateOverTime = 0f;
         }
-        if ((Mathf.Abs(wheelHits[1].sidewaysSlip) + Mathf.Abs(wheelHits[1].forwardSlip) > slipAllowance)){
-            wheelParticles.FLWheel.Play();
+        
+        
+        // Particles for the front left wheel.
+        if ((Mathf.Abs(wheelHits[1].sidewaysSlip) + Mathf.Abs(wheelHits[1].forwardSlip) > slipAllowance))
+        {
+            FLWheelEmission.rateOverTime = 5.0f;
         }
         else
         {
-            wheelParticles.FLWheel.Stop();
+            FLWheelEmission.rateOverTime = 0f;
         }
-        if ((Mathf.Abs(wheelHits[2].sidewaysSlip) + Mathf.Abs(wheelHits[2].forwardSlip) > slipAllowance)){
-            wheelParticles.RRWheel.Play();
+        // Particles for the rear right wheel.
+        if ((Mathf.Abs(wheelHits[2].sidewaysSlip) + Mathf.Abs(wheelHits[2].forwardSlip) > slipAllowance))
+        {
+           RRWheelEmission.rateOverTime = 5.0f;
         }
         else
         {
-            wheelParticles.RRWheel.Stop();
+            RRWheelEmission.rateOverTime = 0f;
         }
-        if ((Mathf.Abs(wheelHits[3].sidewaysSlip) + Mathf.Abs(wheelHits[3].forwardSlip) > slipAllowance)){
-            wheelParticles.RLWheel.Play();
+        // Particles for the rear left wheel.
+        if ((Mathf.Abs(wheelHits[3].sidewaysSlip) + Mathf.Abs(wheelHits[3].forwardSlip) > slipAllowance))
+        {
+            RLWheelEmission.rateOverTime = 5.0f;
         }
         else
         {
-            wheelParticles.RLWheel.Stop();
+            RLWheelEmission.rateOverTime = 0f;
         }
-
-
     }
     void UpdateWheel(WheelCollider coll, MeshRenderer wheelMesh)
     {
